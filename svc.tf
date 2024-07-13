@@ -35,13 +35,13 @@ resource "google_cloud_run_v2_service" "svc" {
     }
   }
 
-  depends_on = [ google_project_iam_member.registry_permissions, google_project_iam_member.secret_manager_grant, data.external.ol-svc-image-sha ]
+  depends_on = [ google_project_iam_member.registry_permissions, google_project_iam_member.secret_manager_grant, data.external.svc-image-sha ]
 }
 
 resource "google_cloud_run_service_iam_policy" "noauth-user-profile" {
-  location = google_cloud_run_v2_service.ol-svc.location
-  project  = google_cloud_run_v2_service.ol-svc.project
-  service  = google_cloud_run_v2_service.ol-svc.name
+  location = google_cloud_run_v2_service.svc.location
+  project  = google_cloud_run_v2_service.svc.project
+  service  = google_cloud_run_v2_service.svc.name
 
   policy_data = data.google_iam_policy.noauth.policy_data
 }
