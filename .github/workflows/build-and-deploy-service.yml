@@ -127,7 +127,7 @@ jobs:
                     "description":"project id",
                     "category":"terraform",
                     "hcl":false,
-                    "sensitive":true
+                    "sensitive":false
                   },
                   "relationships": {
                     "workspace": {
