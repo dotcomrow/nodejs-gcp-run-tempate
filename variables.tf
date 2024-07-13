@@ -50,20 +50,8 @@ variable billing_account {
     nullable = false
 }
 
-variable "python_session_secret"  {
-  description = "Python session secret for cloud run"
-  type       = string
-  nullable = false
-}
-
 variable "common_project_id" {
   description = "Common resources project id"
-  type        = string
-  nullable = false
-}
-
-variable "audience" {
-  description = "Audience to use for the service account"
   type        = string
   nullable = false
 }

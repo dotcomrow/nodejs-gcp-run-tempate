@@ -1,13 +1,9 @@
-locals {
-  ol_svc_name = "ol-svc"
-}
-
-data "external" "ol-svc-image-sha" {
+data "external" "svc-image-sha" {
   program = ["${path.module}/scripts/get-image-sha.sh", "svc-${var.project_name}", "${var.common_project_id}"]
 }
 
-resource "google_cloud_run_v2_service" "ol-svc" {
-  name     = local.ol_svc_name
+resource "google_cloud_run_v2_service" "svc" {
+  name     = "${var.project_name}"
   location = var.region
   ingress  = "INGRESS_TRAFFIC_ALL"
   project  = var.project_id
@@ -25,37 +21,12 @@ resource "google_cloud_run_v2_service" "ol-svc" {
       }
     }
     containers {
-      image = "${var.registry_name}/${var.common_project_id}/svc-${var.project_name}@${data.external.ol-svc-image-sha.result["sha"]}"
+      image = "${var.registry_name}/${var.common_project_id}/svc-${var.project_name}@${data.external.svc-image-sha.result["sha"]}"
 
-      env {
-        name  = "SECRET_KEY"
-        value = var.python_session_secret
-      }
-
-      env {
-        name  = "PROJECT_ID"
-        value = var.project_id
-      }
-
-      env {
-        name  = "AUDIENCE"
-        value = var.audience
-      }
-
-      env {
-        name  = "REGION"
-        value = var.region
-      }
-
-      env {
-        name = "DOMAIN"
-        value = var.domain
-      }
-
-      env {
-        name  = "CONTEXT_ROOT"
-        value = "${local.ol_svc_name}"
-      }
+      # env {
+      #   name  = "CONTEXT_ROOT"
+      #   value = "${var.project_name}"
+      # }
 
       volume_mounts {
         name = "a-volume"
