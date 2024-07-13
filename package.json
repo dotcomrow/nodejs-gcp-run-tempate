@@ -6,7 +6,6 @@
     "main": "./dist/index.js",
     "exports": "./dist/index.js",
     "types": "./dist/index.d.ts",
-    "type": "module",
     "scripts": {
         "build": "tsc",
         "start": "ts-node-esm test/index.test.ts"
