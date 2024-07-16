@@ -5,7 +5,6 @@ const app: Express = express();
 const port = process.env.PORT || 8080;
 
 app.post("/", async (req: Request, res: Response) => {
-  console.log("POST /");
   const result = await Handlers.hello(req);
   const express_response = new Response(result.body, {
     status: result.statusCode,
