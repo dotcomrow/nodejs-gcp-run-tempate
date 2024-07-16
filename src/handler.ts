@@ -1,7 +1,12 @@
 import { Request } from 'express';
 
 export default {
-    hello: async (req: Request) => {
-        throw new Error("Not implemented");
+    handleRequest: async (req: Request) => {
+        return {
+            status: 200,
+            body: {
+                message: "Hello World"
+            }
+        }
     },
 }
