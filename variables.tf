@@ -67,3 +67,9 @@ variable "cloudflare_token" {
   type        = string
   nullable = false
 }
+
+variable GCP_BIGQUERY_PROJECT_ID {
+  description = "GCP bigquery project id"
+  type        = string
+  nullable = false
+}

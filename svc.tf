@@ -23,6 +23,10 @@ resource "google_cloud_run_v2_service" "svc" {
     containers {
       image = "${var.registry_name}/${var.common_project_id}/svc-${var.project_name}@${data.external.svc-image-sha.result["sha"]}"
 
+      env {
+        name  = "GCP_BIGQUERY_PROJECT_ID"
+        value = var.GCP_BIGQUERY_PROJECT_ID
+      }
       volume_mounts {
         name = "a-volume"
         mount_path = "/secrets"

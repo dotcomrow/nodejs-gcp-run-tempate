@@ -1,19 +1,19 @@
 import { Request } from 'express';
-import { GCPBigquery } from "npm-gcp-bigquery";
-import { GCPAccessToken } from "npm-gcp-token";
-import { GCPUserInfo } from "npm-gcp-userinfo";
-import fs from 'node:fs';
+import { BigQuery } from '@google-cloud/bigquery';
 
 export default {
-    handleRequest: async (req: Request) => {
-        
-        var bigquery_token = await new GCPAccessToken(
-            fs.readFileSync('/secrets/google.key').toString()
-          ).getAccessToken("https://www.googleapis.com/auth/bigquery");
+    handleRequest: async (req: Request) => {        
+        const bigquery = new BigQuery({
+            projectId: process.env.GCP_BIGQUERY_PROJECT_ID,
+            keyFilename: '/secrets/google.key'
+        });
+
         
         return {
             status: 200,
-            body: bigquery_token.access_token
+            body: {
+                message: "Hello, World!"
+            }
         }
     },
 }
