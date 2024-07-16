@@ -62,12 +62,6 @@ variable "registry_name" {
   nullable = false
 }
 
-variable "domain" {
-  description = "Account domain"
-  type        = string
-  nullable = false
-}
-
 variable "cloudflare_token" {
   description = "cloudflare token"
   type        = string
