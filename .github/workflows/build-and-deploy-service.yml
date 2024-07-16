@@ -54,6 +54,10 @@ jobs:
         with:
           credentials_json: '${{ secrets.GOOGLE_CREDENTIALS_RAW }}'
 
+      - name: Set outputs
+        id: vars
+        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
       - name: Set up Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1.1.1
 
@@ -123,7 +127,7 @@ jobs:
                   "type":"vars",
                   "attributes": {
                     "key":"project_id",
-                    "value":"${{ github.event.repository.name }}",
+                    "value":"${{ github.event.repository.name }}-${{ steps.vars.outputs.sha_short }}",
                     "description":"project id",
                     "category":"terraform",
                     "hcl":false,
@@ -193,6 +197,6 @@ jobs:
           configuration_version: ${{ steps.upload.outputs.configuration_version_id }}
           plan_only: false
         env:
-          TF_VAR_project_id: "\"${{ github.event.repository.name }}\""
+          TF_VAR_project_id: "\"${{ github.event.repository.name }}-${{ steps.vars.outputs.sha_short }}\""
           TF_VAR_project_name: "\"${{ github.event.repository.name }}\""
 
