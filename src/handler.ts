@@ -2,6 +2,6 @@ import { Request } from 'express';
 
 export default {
     hello: async (req: Request) => {
-        throw new DOMException("Not implemented");
+        throw new Error("Not implemented");
     },
 }
