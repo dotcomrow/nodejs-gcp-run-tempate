@@ -10,7 +10,9 @@ app.use(express.json())
 app.post("/", async (req: Request, res: Response) => {
   const auth_header = req.header("Authorization");
   if (!auth_header) {
-    res.status(401).send("Unauthorized");
+    res.status(401).send({
+      message: "Unauthorized"
+    });
     return;
   }
 
@@ -18,7 +20,9 @@ app.post("/", async (req: Request, res: Response) => {
   var response = await axios.get("https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=" + bearer_token);
 
   if (response.data.error) {
-    res.status(401).send("Unauthorized");
+    res.status(401).send({
+      message: "Unauthorized"
+    });
     return;
   }
 
