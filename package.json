@@ -1,0 +1,28 @@
+{
+    "name": "nodejs-gcp-service-template",
+    "description": "NodeJS GCP service template",
+    "version": "1.0.0",
+    "private": true,
+    "main": "./dist/index.js",
+    "exports": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "type": "module",
+    "scripts": {
+        "build": "tsc",
+        "start": "ts-node-esm test/index.test.ts"
+    },
+    "engines": {
+        "node": ">=16.0.0"
+    },
+    "author": "Chris Lyons",
+    "license": "Apache-2.0",
+    "dependencies": {
+        "express": "^4.17.21",
+        "@google-cloud/bigquery": "^7.8.0"
+    },
+    "devDependencies": {
+        "@types/express": "^4.17.21",
+        "@types/node": "^20.10.3",
+        "typescript": "^5.3.2"
+    }
+}
