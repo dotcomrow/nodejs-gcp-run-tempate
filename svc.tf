@@ -27,6 +27,11 @@ resource "google_cloud_run_v2_service" "svc" {
         name  = "GCP_BIGQUERY_PROJECT_ID"
         value = var.GCP_BIGQUERY_PROJECT_ID
       }
+
+      env {
+        name = "SHARED_SERVICE_ACCOUNT_EMAIL"
+        value = var.SHARED_SERVICE_ACCOUNT_EMAIL
+      }
       volume_mounts {
         name = "a-volume"
         mount_path = "/secrets"

@@ -26,6 +26,13 @@ app.post("/", async (req: Request, res: Response) => {
     return;
   }
 
+  if (response.data.email != process.env.SHARED_SERVICE_ACCOUNT_EMAIL) {
+    res.status(401).send({
+      message: "Unauthorized"
+    });
+    return;
+  }
+
   const { status, body } = await Handlers.handleRequest(req.body, response.data);
   res.status(status).setHeader(
     "Content-Type", "application/json"

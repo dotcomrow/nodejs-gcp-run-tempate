@@ -73,3 +73,9 @@ variable GCP_BIGQUERY_PROJECT_ID {
   type        = string
   nullable = false
 }
+
+variable SHARED_SERVICE_ACCOUNT_EMAIL {
+  description = "Shared service account email"
+  type        = string
+  nullable = false
+}
