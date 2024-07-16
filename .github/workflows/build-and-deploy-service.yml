@@ -196,7 +196,4 @@ jobs:
           workspace: ${{ github.event.repository.name }}
           configuration_version: ${{ steps.upload.outputs.configuration_version_id }}
           plan_only: false
-        env:
-          TF_VAR_project_id: "\"${{ github.event.repository.name }}-${{ steps.vars.outputs.sha_short }}\""
-          TF_VAR_project_name: "\"${{ github.event.repository.name }}\""
 
