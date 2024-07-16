@@ -5,14 +5,7 @@ const app: Express = express();
 const port = process.env.PORT || 8080;
 
 app.post("/", async (req: Request, res: Response) => {
-  const result = await Handlers.hello(req);
-  const express_response = new Response(result.body, {
-    status: result.statusCode,
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  res.send(express_response);
+  res.send(await Handlers.hello(req));
 });
 
 app.listen(port, () => {
