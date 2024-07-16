@@ -7,6 +7,8 @@ export default {
             keyFilename: '/secrets/google.key'
         });
 
+        console.log("data", data);
+        console.log("user", user);
         return {
             status: 200,
             body: {
