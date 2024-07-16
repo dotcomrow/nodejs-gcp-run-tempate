@@ -1,5 +1,5 @@
 import express, { Express, Request, Response } from "express";
-import Handlers from "./handler"
+import Handlers from "./handler.js"
 
 const app: Express = express();
 const port = process.env.PORT || 8080;
