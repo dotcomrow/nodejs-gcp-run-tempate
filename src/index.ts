@@ -4,6 +4,8 @@ import Handlers from "./handler"
 const app: Express = express();
 const port = process.env.PORT || 8080;
 
+app.use(express.json()) 
+
 app.post("/", async (req: Request, res: Response) => {
   const { status, body } = await Handlers.handleRequest(req);
   res.status(status).setHeader(
