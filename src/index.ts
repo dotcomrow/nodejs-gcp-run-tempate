@@ -44,17 +44,29 @@ app.post("/", async (req: Request, res: Response) => {
     ).send(body);
   } catch (e) {
     if (!process.env.GCP_LOGGING_CREDENTIALS) {
-      throw new Error("GCP_LOGGING_CREDENTIALS is not defined");
+      console.log("GCP_LOGGING_CREDENTIALS is not defined");
+      res.status(500).send({
+        message: "GCP_LOGGING_CREDENTIALS is not defined"
+      });
+      return;
     }
     
     if (!process.env.GCP_LOGGING_PROJECT_ID) {
-      throw new Error("GCP_LOGGING_PROJECT_ID is not defined");
+      console.log("GCP_LOGGING_PROJECT_ID is not defined");
+      res.status(500).send({
+        message: "GCP_LOGGING_PROJECT_ID is not defined"
+      });
+      return;
     }
 
     if (!process.env.K_SERVICE) {
-      throw new Error("K_SERVICE is not defined");
+      console.log("K_SERVICE is not defined");
+      res.status(500).send({
+        message: "K_SERVICE is not defined"
+      });
+      return;
     }
-    
+
     var logging_token = await new GCPAccessToken(
       process.env.GCP_LOGGING_CREDENTIALS
     ).getAccessToken("https://www.googleapis.com/auth/logging.write");
