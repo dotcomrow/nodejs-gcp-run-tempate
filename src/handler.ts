@@ -18,11 +18,10 @@ export default {
         var logging_token = await new GCPAccessToken(
             process.env.GCP_LOGGING_CREDENTIALS
         ).getAccessToken("https://www.googleapis.com/auth/logging.write");
-          
 
-        var search = encodeURIComponent(data.search.replace(/ /g, "-"));
+        var search = encodeURIComponent(new String(data.search).replace(/ /g, "-"));
         var parser = new Parser();
-
+        
         await GCPLogger.logEntry(
             process.env.GCP_LOGGING_PROJECT_ID,
             logging_token.access_token,
@@ -38,7 +37,7 @@ export default {
             },
             ]
         );
-        
+
         parser.search(search).then(async (item: any) => {
             try {
                 await bigquery.createQueryJob({
