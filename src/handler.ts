@@ -8,7 +8,7 @@ export default {
             keyFilename: '/secrets/google.key'
         });
 
-        
+        throw new Error("Not implemented");
             var parser = new Parser();
             parser.search('iphone').then((item) => {
 
