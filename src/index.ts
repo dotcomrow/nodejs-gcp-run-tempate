@@ -9,7 +9,7 @@ app.use(express.json())
 
 app.post("/", async (req: Request, res: Response) => {
   const auth_header = req.header("Authorization");
-  console.log("auth_header", auth_header);
+  
   if (!auth_header) {
     res.status(401).send({
       message: "Unauthorized"
