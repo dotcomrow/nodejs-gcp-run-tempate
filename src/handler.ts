@@ -19,7 +19,7 @@ export default {
             process.env.GCP_LOGGING_CREDENTIALS
         ).getAccessToken("https://www.googleapis.com/auth/logging.write");
 
-        var search = encodeURIComponent(new String(data.search).replace(/ /g, "-"));
+        var search = encodeURIComponent(new String(data.configuration.search).replace(/ /g, "-"));
         var parser = new Parser();
         
         await GCPLogger.logEntry(
@@ -31,7 +31,7 @@ export default {
                 severity: "INFO",
                 // textPayload: message,
                 jsonPayload: {
-                    configuration: data,
+                    configuration: data.configuration,
                     search: search,
                 },
             },
