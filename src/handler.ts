@@ -21,38 +21,16 @@ export default {
 
         var search = encodeURIComponent(new String(data.configuration.search).replace(/ /g, "-"));
         var parser = new Parser();
-        
-        await GCPLogger.logEntry(
-            process.env.GCP_LOGGING_PROJECT_ID,
-            logging_token.access_token,
-            process.env.K_SERVICE,
-            [
-            {
-                severity: "INFO",
-                // textPayload: message,
-                jsonPayload: {
-                    configuration: data.configuration,
-                    search: search,
-                },
-            },
-            ]
-        );
 
         parser.search(search).then(async (search_result: any) => {
             try {
                 for (var item of search_result) {
                     await bigquery.createQueryJob({
-                        query: `insert into database_dataset.aliexpress_search_results values (
-                            '` +
-                            data.account_id +
-                            `','` +
-                            data.search_request_id +
-                            `','` +
-                            uuidv4() +
-                            `',
-                            PARSE_JSON('` +
-                            JSON.stringify(item) +
-                            `'),
+                        query: `insert into database_dataset.aliexpress_search_results values ('` + 
+                            data.account_id + `','` + 
+                            data.search_request_id + `','` +
+                            uuidv4() + `',
+                            PARSE_JSON('` + JSON.stringify(item) + `'),
                             CURRENT_TIMESTAMP())`
                     });
                 }
