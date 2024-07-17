@@ -7,17 +7,6 @@ const port = process.env.PORT || 8080;
 
 app.use(express.json()) 
 
-app.options("/", (req: Request, res: Response) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Content-Type, Authorization"
-  );
-
-  res.status(200).send();
-});
-
 app.post("/", async (req: Request, res: Response) => {
   const auth_header = req.header("Authorization");
   if (!auth_header) {
@@ -27,6 +16,7 @@ app.post("/", async (req: Request, res: Response) => {
     return;
   }
 
+  console.log("auth_header", auth_header);
   const bearer_token = auth_header.split(" ")[1];
   var response = await axios.get("https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=" + bearer_token);
 
