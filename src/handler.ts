@@ -29,7 +29,7 @@ export default {
                         query: `insert into database_dataset.aliexpress_search_results values ('` + 
                             data.account_id + `','` + 
                             data.search_request_id + `','` +
-                            uuidv4() + `',PARSE_JSON('` + JSON.stringify(item).replace(/\'\'/g, "' '") + `'),CURRENT_TIMESTAMP())`
+                            uuidv4() + `',PARSE_JSON('` + JSON.stringify(item).replace(/\'/g, "\"") + `'),CURRENT_TIMESTAMP())`
                     });
                 }
             } catch (e) {
