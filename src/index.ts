@@ -9,6 +9,7 @@ app.use(express.json())
 
 app.post("/", async (req: Request, res: Response) => {
   const auth_header = req.header("Authorization");
+  console.log("auth_header", auth_header);
   if (!auth_header) {
     res.status(401).send({
       message: "Unauthorized"
@@ -16,7 +17,6 @@ app.post("/", async (req: Request, res: Response) => {
     return;
   }
 
-  console.log("auth_header", auth_header);
   const bearer_token = auth_header.split(" ")[1];
   var response = await axios.get("https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=" + bearer_token);
 
