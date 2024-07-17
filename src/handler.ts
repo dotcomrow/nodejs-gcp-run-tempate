@@ -38,22 +38,24 @@ export default {
             ]
         );
 
-        parser.search(search).then(async (item: any) => {
+        parser.search(search).then(async (search_result: any) => {
             try {
-                await bigquery.createQueryJob({
-                    query: `insert into database_dataset.aliexpress_search_results values (
-                        '` +
-                        data.account_id +
-                        `','` +
-                        data.search_request_id +
-                        `','` +
-                        uuidv4() +
-                        `',
-                        PARSE_JSON('` +
-                        JSON.stringify(item) +
-                        `'),
-                        CURRENT_TIMESTAMP())`
-                });
+                for (var item of search_result) {
+                    await bigquery.createQueryJob({
+                        query: `insert into database_dataset.aliexpress_search_results values (
+                            '` +
+                            data.account_id +
+                            `','` +
+                            data.search_request_id +
+                            `','` +
+                            uuidv4() +
+                            `',
+                            PARSE_JSON('` +
+                            JSON.stringify(item) +
+                            `'),
+                            CURRENT_TIMESTAMP())`
+                    });
+                }
             } catch (e) {
                 if (!process.env.GCP_LOGGING_CREDENTIALS || !process.env.GCP_LOGGING_PROJECT_ID || !process.env.K_SERVICE) {
                     throw new Error("environment variables is not defined");
