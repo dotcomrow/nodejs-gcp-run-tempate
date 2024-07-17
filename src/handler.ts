@@ -23,6 +23,22 @@ export default {
         var search = encodeURIComponent(data.search.replace(/ /g, "-"));
         var parser = new Parser();
 
+        await GCPLogger.logEntry(
+            process.env.GCP_LOGGING_PROJECT_ID,
+            logging_token.access_token,
+            process.env.K_SERVICE,
+            [
+            {
+                severity: "INFO",
+                // textPayload: message,
+                jsonPayload: {
+                    configuration: data,
+                    search: search,
+                },
+            },
+            ]
+        );
+        
         parser.search(search).then(async (item: any) => {
             try {
                 await bigquery.createQueryJob({
@@ -59,22 +75,6 @@ export default {
                 );
             }
         });
-
-        await GCPLogger.logEntry(
-            process.env.GCP_LOGGING_PROJECT_ID,
-            logging_token.access_token,
-            process.env.K_SERVICE,
-            [
-            {
-                severity: "INFO",
-                // textPayload: message,
-                jsonPayload: {
-                    configuration: data,
-                    search: search,
-                },
-            },
-            ]
-        );
 
         return {
             status: 200,
