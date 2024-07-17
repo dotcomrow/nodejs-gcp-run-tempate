@@ -32,6 +32,16 @@ resource "google_cloud_run_v2_service" "svc" {
         name = "SHARED_SERVICE_ACCOUNT_EMAIL"
         value = var.SHARED_SERVICE_ACCOUNT_EMAIL
       }
+
+      env {
+        name = "GCP_LOGGING_CREDENTIALS"
+        value = var.GCP_LOGGING_CREDENTIALS
+      }
+
+      env {
+        name = "GCP_LOGGING_PROJECT_ID"
+        value = var.GCP_LOGGING_PROJECT_ID
+      }
       volume_mounts {
         name = "a-volume"
         mount_path = "/secrets"

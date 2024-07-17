@@ -1,5 +1,8 @@
 import express, { Express, Request, Response } from "express";
 import Handlers from "./handler.js"
+import { serializeError } from "serialize-error";
+import { GCPLogger } from "npm-gcp-logging";
+import { GCPAccessToken } from "npm-gcp-token";
 import axios from "axios";
 
 const app: Express = express();
@@ -34,10 +37,47 @@ app.post("/", async (req: Request, res: Response) => {
     return;
   }
 
-  const { status, body } = await Handlers.handleRequest(req.body, response.data);
-  res.status(status).setHeader(
-    "Content-Type", "application/json"
-  ).send(body);
+  try {
+    const { status, body } = await Handlers.handleRequest(req.body, response.data);
+    res.status(status).setHeader(
+      "Content-Type", "application/json"
+    ).send(body);
+  } catch (e) {
+    if (!process.env.GCP_LOGGING_CREDENTIALS) {
+      throw new Error("GCP_LOGGING_CREDENTIALS is not defined");
+    }
+    
+    if (!process.env.GCP_LOGGING_PROJECT_ID) {
+      throw new Error("GCP_LOGGING_PROJECT_ID is not defined");
+    }
+
+    if (!process.env.K_SERVICE) {
+      throw new Error("K_SERVICE is not defined");
+    }
+    
+    var logging_token = await new GCPAccessToken(
+      process.env.GCP_LOGGING_CREDENTIALS
+    ).getAccessToken("https://www.googleapis.com/auth/logging.write");
+    const responseError = serializeError(e);
+      await GCPLogger.logEntry(
+        process.env.GCP_LOGGING_PROJECT_ID,
+        logging_token.access_token,
+        process.env.K_SERVICE,
+        [
+          {
+            severity: "ERROR",
+            // textPayload: message,
+            jsonPayload: {
+              responseError,
+            },
+          },
+        ]
+      );
+    res.status(500).send({
+      message: "Internal Server Error"
+    });
+    return;
+  }
 });
 
 app.listen(port, () => {
