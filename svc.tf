@@ -28,17 +28,6 @@ resource "google_cloud_run_v2_service" "svc" {
   project  = var.project_id
 
   template {
-    volumes {
-      name = "a-volume"
-      secret {
-        secret       = var.bigquery_secret
-        default_mode = 292 # 0444
-        items {
-          version = "1"
-          path    = "google.key"
-        }
-      }
-    }
     containers {
       image = "${var.registry_name}/${var.common_project_id}/svc-${var.project_name}@${data.external.svc-image-sha.result["sha"]}"
 
@@ -60,10 +49,6 @@ resource "google_cloud_run_v2_service" "svc" {
       env {
         name = "GCP_LOGGING_PROJECT_ID"
         value = var.GCP_LOGGING_PROJECT_ID
-      }
-      volume_mounts {
-        name = "a-volume"
-        mount_path = "/secrets"
       }
     }
   }
