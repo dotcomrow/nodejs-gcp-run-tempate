@@ -19,7 +19,7 @@
     "dependencies": {
         "express": "^4.17.21",
         "@google-cloud/bigquery": "^7.8.0",
-        "axios": "^1.7.2",
+        "axios": "^1.7.4",
         "aliexpress-parser":"^1.0.1",
         "npm-gcp-logging": "^1.0.53",
         "npm-gcp-token": "^1.0.12",
