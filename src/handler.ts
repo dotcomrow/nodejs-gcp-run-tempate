@@ -12,7 +12,7 @@ export default {
         });
 
         if (!process.env.GCP_LOGGING_CREDENTIALS || !process.env.GCP_LOGGING_PROJECT_ID || !process.env.K_SERVICE) {
-            throw new Error("environment variables is not defined");
+            throw new Error("environment variables not defined");
         }
         
         var logging_token = await new GCPAccessToken(
