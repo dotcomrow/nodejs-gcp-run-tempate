@@ -1,6 +1,6 @@
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 
-apt-get install -y uidmap
+
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -20,6 +20,7 @@ printf '%s' "$GOOGLE_CREDENTIALS" > key.json
 
 ./google-cloud-sdk/bin/gcloud auth activate-service-account --key-file=key.json
 
+apt-get install -y uidmap
 export SKIP_IPTABLES=1
 curl -fsSL https://get.docker.com/rootless | sh
 
