@@ -24,6 +24,8 @@ npm run build
 
 curl -fsSL https://get.docker.com -o get-docker.sh
 
+chmod 777 *.sh
+
 ./get-docker.sh
 
 docker build . -t $PROJECT_NAME:latest
