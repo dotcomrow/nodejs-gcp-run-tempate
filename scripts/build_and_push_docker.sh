@@ -1,5 +1,7 @@
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
 
+apt-get install sudo -y
+
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -18,15 +20,15 @@ printf '%s' "$GOOGLE_CREDENTIALS" > key.json
 
 ./google-cloud-sdk/bin/gcloud auth activate-service-account --key-file=key.json
 
-./google-cloud-sdk/bin/gcloud auth configure-docker
-
-npm run build
-
 curl -fsSL https://get.docker.com -o get-docker.sh
 
 chmod 777 *.sh
 
-./get-docker.sh
+sudo ./get-docker.sh
+
+./google-cloud-sdk/bin/gcloud auth configure-docker
+
+npm run build
 
 docker build . -t $PROJECT_NAME:latest
 
