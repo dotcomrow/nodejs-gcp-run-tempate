@@ -26,15 +26,6 @@ jobs:
           scheme: calver
           increment: patch
 
-      - id: 'auth'
-        uses: 'google-github-actions/auth@v1'
-        with:
-          credentials_json: '${{ secrets.GOOGLE_CREDENTIALS_RAW }}'
-
-      - name: Set outputs
-        id: vars
-        run: echo "sha_short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-
       - name: Create release
         uses: "actions/github-script@v6"
         env:
@@ -51,7 +42,7 @@ jobs:
                 prerelease: false,
                 repo: context.repo.repo,
                 tag_name: process.env.VERSION,
-                target_commitish: 'release'
+                target_commitish: 'master'
               });
               core.exportVariable('RELEASE_ID', response.data.id);
               core.exportVariable('RELEASE_UPLOAD_URL', response.data.upload_url);
@@ -89,36 +80,6 @@ jobs:
                 "data": {
                   "type":"vars",
                   "attributes": {
-                    "key":"project_id",
-                    "value":"${{ github.event.repository.name }}-${{ steps.vars.outputs.sha_short }}",
-                    "description":"project id",
-                    "category":"terraform",
-                    "hcl":false,
-                    "sensitive":false
-                  },
-                  "relationships": {
-                    "workspace": {
-                      "data": {
-                        "id":"${{ steps.create_workspace.outputs.workspace_id }}",
-                        "type":"workspaces"
-                      }
-                    }
-                  }
-                }
-              }
-              EOF
-              curl \
-              --header "Authorization: Bearer ${{ secrets.TFE_TOKEN }}" \
-              --header "Content-Type: application/vnd.api+json" \
-              --request POST \
-              --data @payload.json \
-              https://app.terraform.io/api/v2/vars
-  
-              cat > payload.json <<EOF
-              {
-                "data": {
-                  "type":"vars",
-                  "attributes": {
                     "key":"project_name",
                     "value":"${{ github.event.repository.name }}",
                     "description":"project name",
@@ -149,7 +110,7 @@ jobs:
         id: upload
         with:
               workspace: ${{ github.event.repository.name }}
-              directory: release
+              directory: .
 
       - name: Create Apply Run
         uses: hashicorp/tfc-workflows-github/actions/create-run@v1.1.1
