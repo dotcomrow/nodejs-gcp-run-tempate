@@ -18,7 +18,7 @@ printf '%s' "$GOOGLE_CREDENTIALS" > key.json
 
 ./google-cloud-sdk/bin/gcloud auth activate-service-account --key-file=key.json
 
-SKIP_IPTABLES=1
+export SKIP_IPTABLES=1
 curl -fsSL https://get.docker.com/rootless | sh
 
 ./google-cloud-sdk/bin/gcloud auth configure-docker
