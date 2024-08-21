@@ -20,11 +20,7 @@ printf '%s' "$GOOGLE_CREDENTIALS" > key.json
 
 ./google-cloud-sdk/bin/gcloud auth activate-service-account --key-file=key.json
 
-curl -fsSL https://get.docker.com -o get-docker.sh
-
-chmod 777 *.sh
-
-sudo ./get-docker.sh
+curl -fsSL https://get.docker.com/rootless | sh
 
 ./google-cloud-sdk/bin/gcloud auth configure-docker
 
