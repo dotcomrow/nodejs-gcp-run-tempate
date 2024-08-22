@@ -28,7 +28,7 @@ chmod -R go-w "$(brew --prefix)/share/zsh"
 
 # /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew install gcc
-brew install svn
+# brew install svn
 # brew install podman
 
 
